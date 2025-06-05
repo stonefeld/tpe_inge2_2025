@@ -1,0 +1,13 @@
+[project]
+name = "tpe-inge2-2025"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12.9"
+dependencies = [
+    "influxdb-client>=1.49.0",
+    "kafka-python>=2.2.10",
+]
+
+[tool.black]
+line-length = 160
