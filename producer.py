@@ -1,7 +1,8 @@
 import json
 import random
-import time
 import sys
+import time
+
 from kafka import KafkaProducer
 
 if len(sys.argv) != 4:
@@ -9,6 +10,7 @@ if len(sys.argv) != 4:
     sys.exit(1)
 
 province = sys.argv[1]
+
 try:
     typical_temperature = float(sys.argv[2])
     typical_humidity = float(sys.argv[3])
@@ -33,14 +35,20 @@ while True:
     humidity = max(0, min(100, humidity))
     last_humidity = humidity
 
-    reading = {
+    temperature_reading = {
         "location": province,
-        "temperature": temperature,
-        "humidity": humidity,
+        "value": temperature,
         "timestamp": time.time(),
     }
+    producer.send("temperature", temperature_reading)
+    print("Enviado temperatura:", temperature_reading)
 
-    producer.send("iot-temperature", reading)
-    print("Enviado:", reading)
+    humidity_reading = {
+        "location": province,
+        "value": humidity,
+        "timestamp": time.time(),
+    }
+    producer.send("humidity", humidity_reading)
+    print("Enviado humedad:", humidity_reading)
 
     time.sleep(1)
